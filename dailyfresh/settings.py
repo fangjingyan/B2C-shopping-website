@@ -146,3 +146,20 @@ EMAIL_PORT = 25
 EMAIL_HOST_USER = 'fangjingyan96@163.com'
 EMAIL_HOST_PASSWORD = 'dailyfresh111'
 EMAIL_FROM = 'dailyfresh<fangjingyan96@163.com>'
+
+# django cache conf using redis
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://192.168.2.15:6379/9",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+# session backend
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
+
+LOGIN_URL='/user/login'

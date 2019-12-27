@@ -8,9 +8,9 @@ class OrderInfo(BaseModel):
 
     PAY_METHOD_CHOICES = (
         (1, 'Cash on delivery'),
-        (2, 'Mastercard'),
-        (3, 'Visa'),
-        (4, 'AmericanExpress')
+        (2, 'WechatPay'),
+        (3, 'AliPay'),
+        (4, 'UnionPay')
     )
 
     ORDER_STATUS_CHOICES = (
