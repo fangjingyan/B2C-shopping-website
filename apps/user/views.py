@@ -100,7 +100,7 @@ class RegisterView(View):
         serializer = Serializer(settings.SECRET_KEY, 3600)
         info = {'confirm': user.id}
         token = serializer.dumps(info)
-        token = token.decode()
+        token = token.decode('utf-8')
 
         send_register_active_email.delay(email, username, token)
 

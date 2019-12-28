@@ -16,6 +16,7 @@ class GoodsType(BaseModel):
         verbose_name_plural = verbose_name
 
     def __str__(self):
+
         return self.name
 
 
@@ -98,7 +99,7 @@ class IndexTypeGoodsBanner(BaseModel):
 class IndexPromotionBanner(BaseModel):
     # promotion model class
     name = models.CharField(max_length=20, verbose_name='Promotion Name')
-    url = models.URLField(verbose_name='Promotion Link')
+    url = models.CharField(max_length=256, verbose_name='Promotion Link')
     image = models.ImageField(upload_to='banner', verbose_name='Promotion Image')
     index = models.SmallIntegerField(default=0, verbose_name='Index')
 

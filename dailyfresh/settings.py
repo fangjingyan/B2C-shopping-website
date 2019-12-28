@@ -163,3 +163,9 @@ SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
 
 LOGIN_URL='/user/login'
+
+DEFAULT_FILE_STORAGE='utils.fdfs.storage.FDFSStroage'
+
+FDFS_CLIENT_CONF='./utils/fdfs/client.conf'
+
+FDFS_URL='http://192.168.2.15:8888/'
