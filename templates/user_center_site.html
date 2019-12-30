@@ -1,10 +1,10 @@
 {% extends 'base_user_center.html' %}
 {% block right_content %}
     <div class="right_content clearfix">
-				<h3 class="common_title2">收货地址</h3>
+				<h3 class="common_title2">Mailing Address</h3>
 				<div class="site_con">
 					<dl>
-						<dt>默认地址：</dt>
+						<dt>Default Address: </dt>
                         {% if address %}
 						    <dd>Address: {{ address.addr}}</dd>
                             <dd>Receiver: {{ address.receiver}}</dd>
@@ -14,28 +14,28 @@
                         {% endif %}
 					</dl>					
 				</div>
-				<h3 class="common_title2">编辑地址</h3>
+				<h3 class="common_title2">Edit Address</h3>
 				<div class="site_con">
 					<form method="post">
                         {% csrf_token %}
 						<div class="form_group">
-							<label>收件人：</label>
+							<label>receiver: </label>
 							<input type="text" name="receiver">
 						</div>
 						<div class="form_group form_group2">
-							<label>详细地址：</label>
+							<label>address: </label>
 							<textarea class="site_area" name="addr"></textarea>
 						</div>
 						<div class="form_group">
-							<label>邮编：</label>
+							<label>postal code: </label>
 							<input type="text" name="zip_code">
 						</div>
 						<div class="form_group">
-							<label>手机：</label>
+							<label>phone: </label>
 							<input type="text" name="phone">
 						</div>
 
-						<input type="submit" value="提交" class="info_submit">
+						<input type="submit" value="Submit" class="info_submit">
 					</form>
 				</div>
 		</div>

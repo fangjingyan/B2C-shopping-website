@@ -42,6 +42,10 @@ class GoodsSKU(BaseModel):
         verbose_name = 'Goods'
         verbose_name_plural = verbose_name
 
+    def __str__(self):
+
+        return self.name
+
 
 class Goods(BaseModel):
     # goods SPU model class
@@ -54,6 +58,10 @@ class Goods(BaseModel):
         verbose_name = 'Goods SPU'
         verbose_name_plural = verbose_name
 
+    def __str__(self):
+
+        return self.name
+
 
 class GoodsImage(BaseModel):
     # goods image model class
@@ -64,6 +72,10 @@ class GoodsImage(BaseModel):
         db_table = 'df_goods_image'
         verbose_name = 'Goods Image'
         verbose_name_plural = verbose_name
+
+    def __str__(self):
+
+        return self.sku
 
 
 class IndexGoodsBanner(BaseModel):
@@ -76,6 +88,10 @@ class IndexGoodsBanner(BaseModel):
         db_table = 'df_index_banner'
         verbose_name = 'Index Carousel Goods'
         verbose_name_plural = verbose_name
+
+    def __str__(self):
+
+        return self.sku.name
 
 
 class IndexTypeGoodsBanner(BaseModel):
@@ -95,6 +111,10 @@ class IndexTypeGoodsBanner(BaseModel):
         verbose_name = "Index Type Goods"
         verbose_name_plural = verbose_name
 
+    def __str__(self):
+
+        return self.sku.name
+
 
 class IndexPromotionBanner(BaseModel):
     # promotion model class
@@ -107,3 +127,7 @@ class IndexPromotionBanner(BaseModel):
         db_table = 'df_index_promotion'
         verbose_name = "Index Promotion"
         verbose_name_plural = verbose_name
+
+    def __str__(self):
+
+        return self.name

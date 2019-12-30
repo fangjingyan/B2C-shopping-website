@@ -228,7 +228,7 @@ html,body{height:100%}
 /* 商品详情样式 */
 .goods_detail_con{
 	width:1198px;
-	height:398px;
+	height:500px;
 	border:1px solid #ededed;
 	margin:0 auto 20px;
 }

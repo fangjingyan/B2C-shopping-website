@@ -15,20 +15,11 @@
 		<div class="header">
 			<div class="welcome fl">Welcome to DailyFresh!</div>
 			<div class="fr">
-                {% if user.is_authenticated %}
-				<div class="login_btn fl">
-					Welcome: <em>{{ user.username }}</em>
-                    <span>|</span>
-					<a href="{% url 'user:logout' %}">exit</a>
-				</div>
-
-                {% else %}
 				<div class="login_btn fl">
 					<a href="{% url 'user:login' %}">login</a>
 					<span>|</span>
 					<a href="{% url 'user:register' %}">register</a>
 				</div>
-                {% endif %}
 				<div class="user_link fl">
 					<span>|</span>
 					<a href="{% url 'user:user' %}">user center</a>
@@ -66,9 +57,11 @@
 			<a href="#">Contact us</a>
 			<span>|</span>
 			<a href="#">Hiring</a>
+{#			<span>|</span>#}
+{#			<a href="#">友情链接</a>		#}
 		</div>
 		<p>CopyRight © 2019 Waterloo DailyFresh All Rights Reserved</p>
-		<p>Phone：888-****888 </p>
+		<p>Phone: 888-****888 </p>
 	</div>
     {% block bottom %}{% endblock bottom %}
     {% block bottomfiles %}{% endblock bottomfiles %}
