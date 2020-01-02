@@ -41,7 +41,7 @@
 			<div class="total">total price: <em>$ 1.00</em></div>
 			<div class="operate_btn">
                 {% csrf_token %}
-				<a href="javascript:;" class="buy_btn">Buy Now</a>
+				<a href="javascript:;" sku_id="{{ sku.id }}"class="buy_btn" id="buy_btn">Buy Now</a>
 				<a href="javascript:;" sku_id="{{ sku.id }}"class="add_cart" id="add_cart">Add to Cart</a>
 			</div>
 		</div>
@@ -65,22 +65,22 @@
 
 		<div class="r_wrap fr clearfix">
 			<ul class="detail_tab clearfix">
-				<li class="active">Description</li>
-				<li>Comments</li>
+				<li id="tag_detail" class="active">Description</li>
+				<li id="tag_comment" >Comments</li>
 			</ul>
 
-			<div class="tab_content">
+			<div class="tab_content" id="tab_detail">
 				<dl>
 					<dt>Description: </dt>
 					<dd>{{ sku.goods.detail|safe}}</dd>
 				</dl>
 			</div>
 
-            <div class="tab_content">
+            <div class="tab_content" id="tab_comment" style="display: none;">
 				<dl>
                     {% for order in sku_orders %}
 					<dt>Comments Time: {{ order.update_time }}&nbsp;&nbsp;User Name: {{ order.order.user.username}}</dt>
-					<dd>{Comments: { order.comment}}</dd>
+					<dd>Comments: {{order.comment}}</dd>
                     {% endfor %}
 				</dl>
 			</div>
@@ -95,6 +95,20 @@
 {% block bottomfiles %}
 	<script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
 	<script type="text/javascript">
+    $('#tag_detail').click(function () {
+        $('#tag_comment').removeClass('active')
+        $(this).addClass('active')
+        $('#tab_detail').show()
+        $('#tab_comment').hide()
+    })
+
+    $('#tag_comment').click(function () {
+        $('#tag_detail').removeClass('active')
+        $(this).addClass('active')
+        $('#tab_detail').hide()
+        $('#tab_comment').show()
+    })
+
     update_price()
         {#compute total price#}
         function update_price() {
@@ -176,6 +190,23 @@
                 }
             })
 		})
+
+        $('#buy_btn').click(function () {
+            sku_id = $(this).attr('sku_id')
+            count = $('.num_show').val()
+            csrf = $('input[name="csrfmiddlewaretoken"]').val()
+            para = {'sku_id': sku_id, 'count': count, 'csrfmiddlewaretoken': csrf}
+            {#ajex post request, visit /cart/add#}
+            $.post('/cart/add', para, function (data) {
+                if (data.res == 5){
+                    window.location.href = '/cart';
+                }
+                else{
+                    alert(data.errmsg)
+                }
+
+            })
+        })
 
 
 	</script>

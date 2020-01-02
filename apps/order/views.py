@@ -61,7 +61,7 @@ class OrderPlaceView(LoginRequiredMixin, View):
         return render(request, 'place_order.html', context)
 
 
-# user ajax post
+# use ajax post
 # /order/commit
 # pessimistic lock
 '''
@@ -276,3 +276,106 @@ class OrderCommitView(View):
         conn.hdel(cart_key, *sku_ids)
 
         return JsonResponse({'res': 5, 'message': 'create order successfully'})
+
+
+# use ajax post
+# /order/pay
+class OrderPayView(View):
+
+    def post(self, request):
+
+        user = request.user
+        if not user.is_authenticated:
+            return JsonResponse({'res': 0, 'errmsg': 'user not login'})
+
+        order_id = request.POST.get('order_id')
+
+        if not order_id:
+            return JsonResponse({'res': 1, 'errmsg': 'invalid order ID'})
+
+        try:
+            order = OrderInfo.objects.get(user=user, order_id=order_id, order_status=1)
+
+        except OrderInfo.DoesNotExist:
+            return JsonResponse({'res': 2, 'errmsg': 'invalid order'})
+
+        return JsonResponse({'res': 3, 'message': 'Pay successfully'})
+
+
+# /order/check
+class OrderCheckView(View):
+
+    def post(self, request):
+
+        user = request.user
+        if not user.is_authenticated:
+            return JsonResponse({'res': 0, 'errmsg': 'user not login'})
+
+        order_id = request.POST.get('order_id')
+
+        if not order_id:
+            return JsonResponse({'res': 1, 'errmsg': 'invalid order ID'})
+
+        try:
+            order = OrderInfo.objects.get(user=user, order_id=order_id, order_status=1)
+
+        except OrderInfo.DoesNotExist:
+            return JsonResponse({'res': 2, 'errmsg': 'invalid order'})
+
+        trade_no = datetime.now().strftime('%Y%m%d%H%M%S') + str(order.order_id)
+        order.trade_no = trade_no
+        order.order_status = 4
+        order.save()
+        return JsonResponse({'res': 3, 'message': 'Pay successfully'})
+
+
+# /order/comment/order_id
+class CommentView(LoginRequiredMixin, View):
+    def get(self, request, order_id):
+        user = request.user
+        if not order_id:
+            return redirect(reverse('user:order'))
+
+        try:
+            order = OrderInfo.objects.get(order_id=order_id, user=user)
+        except OrderInfo.DoesNotExist:
+            return redirect(reverse("user:order"))
+
+        order.status_name = OrderInfo.ORDER_STATUS[order.order_status]
+
+        order_skus = OrderGoods.objects.filter(order_id=order_id)
+        for order_sku in order_skus:
+            subprice = order_sku.count * order_sku.price
+            order_sku.subprice = subprice
+        order.order_skus = order_skus
+
+        return render(request, "order_comment.html", {"order": order})
+
+    def post(self, request, order_id):
+        user = request.user
+        if not order_id:
+            return redirect(reverse('user:order'))
+
+        try:
+            order = OrderInfo.objects.get(order_id=order_id, user=user)
+        except OrderInfo.DoesNotExist:
+            return redirect(reverse("user:order"))
+
+        total_count = request.POST.get("total_count")
+        total_count = int(total_count)
+
+        for i in range(1, total_count + 1):
+            sku_id = request.POST.get("sku_%d" % i)  # sku_1 sku_2
+            content = request.POST.get('content_%d' % i, '')  # cotent_1 content_2 content_3
+            try:
+                order_goods = OrderGoods.objects.get(order=order, sku_id=sku_id)
+            except OrderGoods.DoesNotExist:
+                continue
+
+            order_goods.comment = content
+            order_goods.save()
+
+        order.order_status = 5
+        order.save()
+
+        return redirect(reverse("user:order", kwargs={"page": 1}))

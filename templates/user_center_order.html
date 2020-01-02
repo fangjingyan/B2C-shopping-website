@@ -1,6 +1,8 @@
 {% extends 'base_user_center.html' %}
+{% load staticfiles %}
 {% block right_content %}
     <div class="right_content clearfix">
+                {% csrf_token %}
 				<h3 class="common_title2">Orders</h3>
                 {% for order in order_page %}
 				<ul class="order_list_th w978 clearfix">
@@ -24,7 +26,7 @@
 							</td>
                             <td width="15%"><p>${{ order.total_pay }}</p>(include delivery fee: ${{ order.transit_price }})</td>
 							<td width="15%">{{ order.status_name }}</td>
-							<td width="15%"><a href="#" class="oper_btn">Pay Now</a></td>
+							<td width="15%"><a href="#" order_id="{{ order.order_id }}" status="{{ order.order_status }}" class="oper_btn">Pay Now</a></td>
 						</tr>
 					</tbody>
 				</table>
@@ -48,3 +50,71 @@
 				</div>
 		</div>
 {% endblock right_content %}
+
+{% block bottom %}
+	<div class="popup_con">
+		<div class="popup">
+			<p>Pay Order Successfully！</p>
+		</div>
+		<div class="mask"></div>
+	</div>
+{% endblock bottom %}
+
+{% block bottomfiles %}
+    <script src="{% static 'js/jquery-1.12.4.min.js'%}"></script>
+    <script>
+
+    $('.oper_btn').each(function () {
+        status = $(this).attr('status')
+        if (status == 1){
+            $(this).text('Pay Now')
+        }
+        else if (status == 4){
+            $(this).text('Comment Now')
+        }
+        else if (status == 5){
+            $(this).text('Completed')
+        }
+    })
+
+    $('.oper_btn').click(function () {
+        status = $(this).attr('status')
+        console.log(status)
+        order_id = $(this).attr('order_id')
+
+        if (status == 1){
+            {#visit /order/pay#}
+            csrf = $('input[name="csrfmiddlewaretoken"]').val()
+            params = {'order_id': order_id, 'csrfmiddlewaretoken': csrf}
+
+            $.post('/order/pay', params, function (data) {
+
+                if (data.res == 3){
+
+                    $.post('/order/check', params, function (data) {
+                        if (data.res == 3){
+                            $('.popup_con').fadeIn('fast', function () {
+                                setTimeout(function () {
+                                    $('.popup_con').fadeOut('fast', function () {
+                                        location.reload();
+                                     });
+                                }, 3000)
+                            });
+                        }
+                        else{
+                            alert(data.errmsg)
+                        }
+                    })
+                }
+                else {
+                    alert(data.errmsg)
+                }
+            })
+        }
+        else if (status == 4){
+
+            window.location.href = '/order/comment/' + order_id
+        }
+    })
+    </script>
+{% endblock bottomfiles %}

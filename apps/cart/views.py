@@ -7,11 +7,10 @@ from utils.mixin import LoginRequiredMixin
 from django_redis import get_redis_connection
 # Create your views here.
 
+
 # add goods to the cart
 # 1. ajax post
 # 2. pass parameters: goods id(sku.id) and amount(count)
-
-
 # /cart/add
 class CartAddView(View):
 
