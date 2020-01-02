@@ -5,6 +5,33 @@ from db.base_model import BaseModel
 
 class OrderInfo(BaseModel):
     # order model class
+    PAY_METHODS = {
+        '1': "Cash on delivery",
+        '2': "WechatPay",
+        '3': "AliPay",
+        '4': 'UnionPay'
+    }
+
+    PAY_METHODS_ENUM = {
+        "CASH": 1,
+        "ALIPAY": 2
+    }
+
+    ORDER_STATUS_ENUM = {
+        "UNPAID": 1,
+        "UNSEND": 2,
+        "UNRECEIVED": 3,
+        "UNCOMMENT": 4,
+        "FINISHED": 5
+    }
+
+    ORDER_STATUS = {
+        1: "UNPAID",
+        2: "UNSEND",
+        3: "UNRECEIVED",
+        4: "UNCOMMENT",
+        5: "FINISHED"
+    }
 
     PAY_METHOD_CHOICES = (
         (1, 'Cash on delivery'),

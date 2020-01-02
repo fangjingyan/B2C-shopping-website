@@ -1,6 +1,7 @@
 import re
 from user.models import User, Address
 from goods.models import GoodsSKU
+from order.models import OrderInfo, OrderGoods
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import View
@@ -13,6 +14,7 @@ from celery_tasks.tasks import send_register_active_email
 from django.contrib.auth import authenticate, login, logout
 from utils.mixin import LoginRequiredMixin
 from django_redis import get_redis_connection
+from django.core.paginator import Paginator
 # Create your views here.
 
 # /user/register
@@ -217,9 +219,52 @@ class UserInfoView(LoginRequiredMixin, View):
 # /user/order
 class UserOrderView(LoginRequiredMixin, View):
 
-    def get(self, request):
+    def get(self, request, page):
 
-        return render(request, 'user_center_order.html', {'page': 'order'})
+        user = request.user
+
+        orders = OrderInfo.objects.filter(user=user).order_by('-create_time')
+
+        for order in orders:
+            order_skus = OrderGoods.objects.filter(order_id=order.order_id)
+
+            # get subprice
+            for order_sku in order_skus:
+                subprice = order_sku.count * order_sku.price
+                order_sku.subprice = subprice
+
+            order.order_skus = order_skus
+            order.status_name = OrderInfo.ORDER_STATUS[order.order_status]
+            order.total_pay = order.total_price + order.transit_price
+
+        paginator = Paginator(orders, 1)
+
+        try:
+            page = int(page)
+
+        except Exception as e:
+            page = 1
+
+        if page > paginator.num_pages:
+            page = 1
+
+        order_page = paginator.page(page)
+
+        num_pages = paginator.num_pages
+        if num_pages < 5:
+            pages = range(1, num_pages + 1)
+        elif page <= 3:
+            pages = range(1, 6)
+        elif num_pages - page <= 2:
+            pages = range(num_pages - 4, num_pages + 1)
+        else:
+            pages = range(page - 2, page + 3)
+
+        context = {'order_page': order_page,
+                   'pages': pages,
+                   'page': 'order'}
+
+        return render(request, 'user_center_order.html', context)
 
 
 # user/address

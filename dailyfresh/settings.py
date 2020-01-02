@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tinymce',
+    'tinymce',  # rich text editor
+    'haystack',  # search framework
     'user',
     'goods',
     'cart',
@@ -169,3 +170,17 @@ DEFAULT_FILE_STORAGE='utils.fdfs.storage.FDFSStroage'
 FDFS_CLIENT_CONF='./utils/fdfs/client.conf'
 
 FDFS_URL='http://192.168.2.15:8888/'
+
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        # use whoosh engine
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+    }
+}
+
+# when modify data, generate index auto
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 1

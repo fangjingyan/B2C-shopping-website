@@ -1,0 +1,44 @@
+{% extends 'base_detail_list.html' %}
+{% block title %}DailyFresh-Goods Search List{% endblock title %}
+{% block main_content %}
+	<div class="breadcrumb">
+		<a href="#">{{ query }}</a>
+		<span>></span>
+		<a href="#">search results</a>
+	</div>
+
+	<div class="main_wrap clearfix">
+
+			<ul class="goods_type_list clearfix">
+				{% for item in object_list %}
+                <li>
+					<a href="{% url 'goods:detail' item.object.id %}"><img src="{{ item.object.image.url }}"></a>
+					<h4><a href="{% url 'goods:detail' item.object.id %}">{{ item.object.name }}</a></h4>
+					<div class="operate">
+						<span class="prize">$ {{ item.object.price }}</span>
+						<span class="unit">{{ item.object.price }}/{{ item.object.unite }}</span>
+						<a href="#" class="add_goods" title="Add to Cart"></a>
+					</div>
+				</li>
+                {% endfor %}
+			</ul>
+
+			<div class="pagenation">
+                {% if page_obj.has_previous %}
+				<a href="/search?q={{ query }}&page={{ page_obj.previous_page_number }}">Previous</a>
+                {% endif %}
+                {% for pindex in paginator.page_range %}
+                    {% if pindex == page_obj.number %}
+				        <a href="/search?q={{ query }}&page={{ pindex }}" class="active">{{ pindex }}</a>
+                    {% else %}
+				        <a href="/search?q={{ query }}&page={{ pindex }}">{{ pindex }}</a>
+                    {% endif %}
+			    {% endfor %}
+                {% if page_obj.has_next %}
+				<a href="/search?q={{ query }}&page={{ page_obj.next_page_number }}">Next</a>
+                {% endif %}
+			</div>
+		</div>
+	</div>
+
+{% endblock main_content%}

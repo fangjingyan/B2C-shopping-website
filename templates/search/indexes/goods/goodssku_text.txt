@@ -1,0 +1,4 @@
+# base on which data in the table to generate index
+{{ object.name }}
+{{ object.desc }}
+{{ object.goods.detail}}

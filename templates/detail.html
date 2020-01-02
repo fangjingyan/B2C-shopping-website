@@ -1,10 +1,11 @@
 {% extends 'base_detail_list.html' %}
+{% load staticfiles %}
 {% block title %}DailyFresh-Goods Detail{% endblock title %}
 
 
 {% block main_content%}
 	<div class="breadcrumb">
-		<a href="#">All types</a>
+		<a href="{% url 'goods:index' %}">All types</a>
 		<span>></span>
 		<a href="#">{{ sku.type.name }}</a>
 		<span>></span>
@@ -17,8 +18,8 @@
 		<div class="goods_detail_list fr">
 			<h3>{{ sku.name }}</h3>
 			<p>{{ sku.desc }}</p>
-			<div class="prize_bar">
-				<span class="show_pirze">$<em>{{ sku.price }}</em></span>
+			<div class="price_bar">
+				<span class="show_price">$<em>{{ sku.price }}</em></span>
 				<span class="show_unit">unite: {{ sku.unite }}</span>
 			</div>
 			<div class="goods_num clearfix">
@@ -37,10 +38,11 @@
                     {% endfor %}
                 </ul>
             </div>
-			<div class="total">total price: <em>$ 16.80</em></div>
+			<div class="total">total price: <em>$ 1.00</em></div>
 			<div class="operate_btn">
+                {% csrf_token %}
 				<a href="javascript:;" class="buy_btn">Buy Now</a>
-				<a href="javascript:;" class="add_cart" id="add_cart">Add to Cart</a>
+				<a href="javascript:;" sku_id="{{ sku.id }}"class="add_cart" id="add_cart">Add to Cart</a>
 			</div>
 		</div>
 	</div>
@@ -91,25 +93,90 @@
 	<div class="add_jump"></div>
 {% endblock bottom %}
 {% block bottomfiles %}
-	<script type="text/javascript" src="js/jquery-1.12.2.js"></script>
+	<script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
 	<script type="text/javascript">
+    update_price()
+        {#compute total price#}
+        function update_price() {
+
+            price = $('.show_price').children('em').text()
+            count = $('.num_show').val()
+            price = parseFloat(price)
+            count = parseInt(count)
+            total_price = price * count
+            $('.total').children('em').text('$' + total_price.toFixed(2))
+        }
+
+        $('.add').click(function () {
+            {#inital amount#}
+            count = $('.num_show').val()
+            {#add 1#}
+            count = parseInt(count) + 1
+            {#reset amount#}
+            $('.num_show').val(count)
+            {#update total price#}
+            update_price()
+        })
+
+        $('.minus').click(function () {
+            {#inital amount#}
+            count = $('.num_show').val()
+            {#minus 1#}
+            count = parseInt(count) - 1
+            if (count <= 0){
+                count = 1
+            }
+            {#reset amount#}
+            $('.num_show').val(count)
+            {#update total price#}
+            update_price()
+        })
+
+        $('.num_show').blur(function () {
+            {#get user input#}
+            count = $(this).val()
+            {#check if input is valid#}
+            if (isNaN(count) || count.trim().length==0 || parseInt(count) <=0){
+                count = 1
+            }
+            {#reset amount#}
+            $(this).val(parseInt(count))
+            {#update total price#}
+            update_price()
+        })
+
 		var $add_x = $('#add_cart').offset().top;
 		var $add_y = $('#add_cart').offset().left;
 
 		var $to_x = $('#show_count').offset().top;
 		var $to_y = $('#show_count').offset().left;
 
-		$(".add_jump").css({'left':$add_y+80,'top':$add_x+10,'display':'block'})
-		$('#add_cart').click(function(){
-			$(".add_jump").stop().animate({
-				'left': $to_y+7,
-				'top': $to_x+7},
-				"fast", function() {
-					$(".add_jump").fadeOut('fast',function(){
-						$('#show_count').html(2);
-					});
 
-			});
+		$('#add_cart').click(function(){
+            sku_id = $(this).attr('sku_id')
+            count = $('.num_show').val()
+            csrf = $('input[name="csrfmiddlewaretoken"]').val()
+            para = {'sku_id': sku_id, 'count': count, 'csrfmiddlewaretoken': csrf}
+
+            {#ajex post request, visit /cart/add#}
+            $.post('/cart/add', para, function (data) {
+                if (data.res == 5){
+                    $(".add_jump").css({'left':$add_y+80,'top':$add_x+10,'display':'block'})
+                    $(".add_jump").stop().animate({
+                        'left': $to_y+7,
+                        'top': $to_x+7},
+                        "fast", function() {
+                            $(".add_jump").fadeOut('fast',function(){
+                                $('#show_count').html(data.total_count);
+					            });
+			                });
+                }
+                else{
+                    alert(data.errmsg)
+                }
+            })
 		})
+
+
 	</script>
 {% endblock bottomfiles %}

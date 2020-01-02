@@ -6,6 +6,7 @@ from goods.models import GoodsType, IndexGoodsBanner, IndexPromotionBanner, Inde
 from order.models import OrderGoods
 from django_redis import get_redis_connection
 from django.core.paginator import Paginator
+
 # Create your views here.
 
 # /index
@@ -95,7 +96,6 @@ class DetailView(View):
 
 # /list/typeid/page?sort=sort
 class ListView(View):
-
     def get(self, request, type_id, page):
 
         try:
@@ -159,3 +159,4 @@ class ListView(View):
                    'cart_count': cart_count}
 
         return render(request, 'list.html', context)
+

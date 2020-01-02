@@ -214,7 +214,7 @@ html,body{height:100%}
 .operate{width:160px;margin:10px auto;position:relative;}
 .goods_type_list .operate .prize{color:#da260e; font-size:14px;} 
 .goods_type_list .operate .unit{color:#999;padding-left:5px;}
-.goods_type_list .operate .add_goods{display:inline-block;width:15px;height:15px;background:url(../images/shop_cart.png);position:absolute;right:0;top:3px;}
+/*.goods_type_list .operate .add_goods{display:inline-block;width:15px;height:15px;background:url(../images/more.png);position:absolute;right:0;top:3px;}*/
 
 
 /* 分页样式 */
@@ -239,10 +239,10 @@ html,body{height:100%}
 }
 .goods_detail_list h3{font-size:24px;line-height:24px;color:#666;font-weight:normal;}
 .goods_detail_list p{color:#666;line-height:40px;}
-.prize_bar{height:72px;background-color:#fff5f5;line-height:72px;}
-.prize_bar .show_pirze{font-size:20px;color:#ff3e3e;padding-left:20px}
-.prize_bar .show_pirze em{font-style:normal;font-size:36px;padding-left:10px}
-.prize_bar .show_unit{padding-left:150px}
+.price_bar{height:72px;background-color:#fff5f5;line-height:72px;}
+.price_bar .show_price{font-size:20px;color:#ff3e3e;padding-left:20px}
+.price_bar .show_price em{font-style:normal;font-size:36px;padding-left:10px}
+.price_bar .show_unit{padding-left:150px}
 
 .goods_num{height:52px;margin-top:19px;}
 .goods_num .num_name{width:70px;height:52px;line-height:52px;}
