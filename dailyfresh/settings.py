@@ -24,9 +24,9 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 SECRET_KEY = 'nf0!f437q&2hbf0p5s2x_or6u-!bd)30sq*jc56s^4dsu-bds^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -133,6 +133,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT='/Users/olivia/env/www/dailyfresh/static'
 
 # rich text editor config
 TINYMCE_DEFAULT_CONFIG = {
@@ -184,3 +185,4 @@ HAYSTACK_CONNECTIONS = {
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 HAYSTACK_SEARCH_RESULTS_PER_PAGE = 1
+
