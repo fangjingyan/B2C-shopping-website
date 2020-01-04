@@ -46,7 +46,6 @@ B2C means Business to Customer, which is one of the E-commerce business model.
 * [list]user history views: history_user_id: [sku_id1,sku_id2, sku_id3]
 * [hash]goods info in cart: cart_user_id: {'sku_id1': num, 'sku_id2': num, 'sku_id2': num,}
 * session
-* cache
 
 ## Project Deploy
 <img width="539" alt="Screen Shot 2020-01-03 at 15 24 02" src="https://user-images.githubusercontent.com/43054004/71747223-177a5f80-2e3d-11ea-9d9e-7fd07234db27.png">
