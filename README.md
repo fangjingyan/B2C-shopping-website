@@ -1,7 +1,7 @@
 # B2C-shopping-website
 B2C means Business to Customer, which is one of the E-commerce business model.
 
-## Technology stack
+## Technology Stack
 * Front-end: jQuery, HTML, CSS
 * Back-end: Django
 * Database: MySQL, Redis
