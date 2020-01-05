@@ -11,7 +11,7 @@ B2C means Business to Customer, which is one of the E-commerce business model.
 * Web Server Configure: Nginx, uwsgi
 * Develop Env: Pycharm, Linux
 
-## Project Module
+## Modules
 ### User Module
 * register
 * login
@@ -43,9 +43,21 @@ B2C means Business to Customer, which is one of the E-commerce business model.
 <img width="979" alt="Screen Shot 2020-01-03 at 15 05 17" src="https://user-images.githubusercontent.com/43054004/71746425-ded98680-2e3a-11ea-80cb-e09620924fa6.png">
 
 ### Redis
-* [list]user history views: history_user_id: [sku_id1,sku_id2, sku_id3]
-* [hash]goods info in cart: cart_user_id: {'sku_id1': num, 'sku_id2': num, 'sku_id3': num,}
+* browsing history
+type: list
+each user has one record
+history_user_id: [sku_id1,sku_id2, sku_id3]
+
+* cart info: 
+type: hash
+each user has one record
+cart_user_id: {'sku_id1': amount, 'sku_id2': amount, 'sku_id3': amount}
+
 * session
 
 ## Project Deploy
-<img width="539" alt="Screen Shot 2020-01-03 at 15 24 02" src="https://user-images.githubusercontent.com/43054004/71747223-177a5f80-2e3d-11ea-9d9e-7fd07234db27.png">
+<img width="548" alt="Screen Shot 2020-01-04 at 21 02 09" src="https://user-images.githubusercontent.com/43054004/71774029-7cb17c00-2f35-11ea-9b9f-a86fdac62d6c.png">
+* cerely tasks:
+1. send activation emails, and use Redis as broker
+
+2. re-generate index.html when models are modified
