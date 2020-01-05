@@ -46,13 +46,19 @@ B2C means Business to Customer, which is one of the E-commerce business model.
 
 ### Redis
 * browsing history
+
 type: list
+
 each user has one record
+
 history_user_id: [sku_id1,sku_id2, sku_id3]
 
 * cart info: 
+
 type: hash
+
 each user has one record
+
 cart_user_id: {'sku_id1': amount, 'sku_id2': amount, 'sku_id3': amount}
 
 * session
