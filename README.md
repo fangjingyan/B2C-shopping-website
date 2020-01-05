@@ -12,6 +12,9 @@ B2C means Business to Customer, which is one of the E-commerce business model.
 * Develop Env: Pycharm, Linux
 
 ## Modules
+
+[website display](https://github.com/fangjingyan/B2C-shopping-website/blob/master/dailyfresh.md)
+
 ### User Module
 * register
 * login
@@ -53,7 +56,7 @@ each user has one record
 
 history_user_id: [sku_id1,sku_id2, sku_id3]
 
-* cart info: 
+* cart info
 
 type: hash
 
