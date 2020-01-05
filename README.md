@@ -22,21 +22,23 @@ B2C means Business to Customer, which is one of the E-commerce business model.
 * address management
 
 ### Goods Module
-* index
-* goods detail
-* goods list
-* goods search
+* display goods by category in index
+* display goods detail
+* display goods list by default, price abd sales
+* new goods recommend
+* search goods by keywords
 
 ### Cart Module
 * add goods to cart
 * select all/ some goods in cart
 * increase/decrease goods amount in cart 
 * delete goods in cart
+* compute price of goods in cart
 
 ### Order Module
-* order creation
-* order payment
-* order comment
+* create orders
+* pay orders
+* comment goods in paid orders
 
 ## Database
 ### MySQL
@@ -57,7 +59,9 @@ cart_user_id: {'sku_id1': amount, 'sku_id2': amount, 'sku_id3': amount}
 
 ## Project Deploy
 <img width="548" alt="Screen Shot 2020-01-04 at 21 02 09" src="https://user-images.githubusercontent.com/43054004/71774029-7cb17c00-2f35-11ea-9b9f-a86fdac62d6c.png">
+
 * cerely tasks:
+
 1. send activation emails, and use Redis as broker
 
 2. re-generate index.html when models are modified
