@@ -62,15 +62,15 @@ Here are the [screen shots](https://github.com/fangjingyan/B2C-shopping-website/
 
 * SKU
 
-SKU is short for stock keeping unit. For example, Apple Iphone X black, 256G is a SKU. And each color corresponds to a different SKU code. This makes it easy for sellers to manage their products and send the right products to customers.
+SKU is short for stock keeping unit. For example, Apple iPhone X black, 256G is a SKU. And each color corresponds to a different SKU code. This makes it easy for sellers to manage their products and send the right products to customers.
 
 * SPU
 
-SPU is short for standard product unit. For example, Apple Iphone X is a SPU.
+SPU is short for standard product unit. For example, Apple iPhone X is a SPU.
 
 * Description of tables
 
-User table records users basic information and their permissions.
+User table records users' basic information and their permissions.
 
 Address table records each user's mailing address, one user could have one or more mailing addresses.
 
@@ -90,7 +90,7 @@ IndexTypeGoods table records SKU goods displayed on the homepage by category.
 
 OrderInfo table records each user's order information, one user could place one or more orders.
 
-OrderGoods table records each SKU good's information and comment of one order, one order could contain one or more SKU goods.
+OrderGoods table records each SKU good's information of one order, one order could contain one or more SKU goods.
 
 
 
